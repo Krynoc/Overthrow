@@ -253,7 +253,7 @@ if(!dialog) then {
 						private _pier = "";
 						private _objects = nearestObjects [_pos, [], 150]; 
 						{ 
-							if (((getModelInfo _x) select 0) in ["pierconcrete_01_end_f.p3d", "pierconcrete_01_steps_f.p3d", "pierwooden_01_platform_f.p3d", "pierwooden_02_ladder_f.p3d"]) exitwith {_pier = _x}; 
+							if (((getModelInfo _x) select 0) in OT_pierLandings) exitwith {_pier = _x}; 
 						} foreach (_objects); 
 						if (!(_pier isEqualTo "")) then {  
 							private _intersects = lineIntersectsSurfaces [(getPosASL _pier) vectorAdd [0,0,10], getPosASL _pier]; 

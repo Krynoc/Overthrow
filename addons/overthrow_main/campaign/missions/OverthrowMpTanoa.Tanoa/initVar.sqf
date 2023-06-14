@@ -174,6 +174,7 @@ OT_CRIM_Pistols = ["hgun_Pistol_heavy_01_F","hgun_ACPC2_F","hgun_P07_F","hgun_Ro
 OT_CRIM_Launchers = ["launch_RPG32_F","launch_RPG7_F","launch_RPG7_F","launch_RPG7_F"];
 
 OT_piers = ["Land_PierConcrete_01_4m_ladders_F","Land_PierWooden_01_platform_F","Land_PierWooden_01_hut_F","Land_PierWooden_02_hut_F"]; //spawns dudes that sell boats n stuff
+OT_pierLandings = ["pierconcrete_01_end_f.p3d","pierconcrete_01_steps_f.p3d","pierwooden_01_platform_f.p3d","pierwooden_02_ladder_f.p3d"]; //model names from modelinfo because classnames aren't working
 OT_offices = ["Land_MultistoryBuilding_01_F","Land_MultistoryBuilding_04_F"];
 OT_portBuildings = ["Land_Warehouse_01_F","Land_Warehouse_02_F","Land_ContainerLine_01_F","Land_ContainerLine_02_F","Land_ContainerLine_03_F"];
 OT_airportTerminals = ["Land_Airport_01_terminal_F","Land_Airport_02_terminal_F","Land_Hangar_F"];
