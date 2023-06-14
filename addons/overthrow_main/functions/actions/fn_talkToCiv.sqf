@@ -534,9 +534,21 @@ if (_canBuyBoats) then {
 							if(vehicle player isEqualTo _veh && alive _driver) then {
 								_driver globalchat format["We've arrived in %1, enjoy your stay",_desttown];
 							};
-							sleep 15;
+							sleep 10;
 							if(vehicle player isEqualTo _veh && alive _driver) then {
+								// Find closest pier and kick player out of ferry
+								private _pier = "";
+								private _objects = nearestObjects [player, [], 150]; 
+								{
+									if (((getModelInfo _x) select 0) in ["pierconcrete_01_end_f.p3d", "pierconcrete_01_steps_f.p3d", "pierwooden_01_platform_f.p3d", "pierwooden_02_ladder_f.p3d"]) exitwith {_pier = _x};
+								} foreach (_objects);
 								moveOut player;
+								if (!(_pier isEqualTo "")) then {
+									private _intersects = lineIntersectsSurfaces [(getPosASL _pier) vectorAdd [0,0,10], getPosASL _pier]; 
+									if (!(_intersects isEqualTo [])) then { 
+										player setPosASL (_intersects select 0) select 0;
+									} 
+								};
 								_driver globalchat "Alright, bye";
 							};
 							if(random 100 > 90) then {
@@ -552,7 +564,7 @@ if (_canBuyBoats) then {
 							waitUntil {_veh distance _pos < 100 || time > _timeout};
 							if(!alive _driver) exitWith{};
 
-							[_vehicle] call OT_fnc_cleanupVehicle;
+							[_veh] call OT_fnc_cleanupVehicle;
 							[_driver] call OT_fnc_cleanupUnit; // Ensure driver deletion
 						};
 					};

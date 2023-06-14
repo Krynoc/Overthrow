@@ -244,22 +244,40 @@ if(!dialog) then {
 						params ["_pos","_veh"];
 						sleep 2;
 						private _driver = driver _veh;
+						// Delete all waypoints for drivers group and stop velocity
+						private _g = group _driver;
+						for "_i" from 0 to (count waypoints _g - 1) do { deleteWaypoint [_g, 0]; };
+						_veh setVelocity [0, 0, 0];
+						sleep 1;
+						// Find closest Pier Object to destination and set that as the destination
+						private _pier = "";
+						private _objects = nearestObjects [_pos, [], 150]; 
+						{ 
+							if (((getModelInfo _x) select 0) in ["pierconcrete_01_end_f.p3d", "pierconcrete_01_steps_f.p3d", "pierwooden_01_platform_f.p3d", "pierwooden_02_ladder_f.p3d"]) exitwith {_pier = _x}; 
+						} foreach (_objects); 
+						if (!(_pier isEqualTo "")) then {  
+							private _intersects = lineIntersectsSurfaces [(getPosASL _pier) vectorAdd [0,0,10], getPosASL _pier]; 
+							if (!(_intersects isEqualTo [])) then { 
+								_pos = (_intersects select 0) select 0;
+							} 
+						};
+						// Force everyone out of the vehicle, move players to destination
 						private _e = [];
 						{
-							private _p = _pos getPos [random 50, random 360];
 							moveOut _x;
 							_x allowDamage false;
-							_x setPos _p;
+							if (isPlayer _x) then {_x setPosASL _pos;};
 							_e pushback _x;
 						} foreach(crew vehicle player);
-						sleep 2;
-						disableUserInput false;
-						cutText ["","BLACK IN",3];
-						[_veh] call OT_fnc_cleanupVehicle;
-						[_driver] call OT_fnc_cleanupUnit;
+						sleep 1;
 						{
 							_x allowDamage true;
 						}foreach(_e);
+						disableUserInput false;
+						cutText ["","BLACK IN",3];
+						// Clean up driver and ferry vehicle
+						[_veh] call OT_fnc_cleanupVehicle;
+						[_driver] call OT_fnc_cleanupUnit;
 					};
 				};
 				call {
