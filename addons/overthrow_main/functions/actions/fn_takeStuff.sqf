@@ -21,10 +21,29 @@ if(hmd _unit != "") then {
 	_count = 0;
 	_cls = _x select 0;
 	while {_count < (_x select 1)} do {
-		if(_cls isKindOf ["Default",configFile >> "CfgMagazines"]) then {
-			_unit removeMagazineGlobal _cls;
-			_t addMagazine _cls;
-		}else{
+		[_t, _cls] call {
+			params ["_t", "_cls"];
+			if(_cls isKindOf ["Rifle",configFile >> "CfgWeapons"]) exitWith {
+				_unit removeWeaponGlobal _cls;
+				_t addWeaponGlobal _cls;
+			};
+			if(_cls isKindOf ["Launcher",configFile >> "CfgWeapons"]) exitWith {
+				_unit removeWeaponGlobal _cls;
+				_t addWeaponGlobal _cls;
+			};
+			if(_cls isKindOf ["Pistol",configFile >> "CfgWeapons"]) exitWith {
+				_unit removeWeaponGlobal _cls;
+				_t addWeaponGlobal _cls;
+			};
+			if(_cls isKindOf ["Binocular",configFile >> "CfgWeapons"]) exitWith {
+				_unit unassignItem _cls;
+				_unit removeWeaponGlobal _cls;
+				_t addWeaponGlobal _cls;
+			};
+			if(_cls isKindOf ["Default",configFile >> "CfgMagazines"]) exitWith {
+				_unit removeMagazineGlobal _cls;
+				_t addMagazine _cls;
+			};
 			_unit removeItem _cls;
 			_t addItem _cls;
 		};
